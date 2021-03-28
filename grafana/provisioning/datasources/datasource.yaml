@@ -1,0 +1,10 @@
+# config file version
+apiVersion: 1
+
+datasources:
+- name: Nginx-Lua-Prometheus
+  type: prometheus
+  orgId: 1
+  url: nginx-lua-prometheus-prometheus:9090
+  readOnly: false
+  editable: true

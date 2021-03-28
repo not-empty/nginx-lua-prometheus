@@ -1,0 +1,43 @@
+version: '3.7'
+
+services:
+  nginx-lua-prometheus:
+    build: ./
+    container_name: nginx-lua-prometheus
+    command: ["/tmp/wait-for-it.sh", "http://nginx-lua-prometheus-kibana:5601", "--", "/tmp/startup.sh"]
+    ports:
+      - 9436:9436
+    depends_on:
+      - nginx-lua-prometheus-elasticsearch
+      - nginx-lua-prometheus-kibana
+
+  nginx-lua-prometheus-prometheus:
+    build: ./prometheus
+    container_name: nginx-lua-prometheus-prometheus
+    ports:
+      - 9090:9090
+
+  nginx-lua-prometheus-grafana:
+    build: ./grafana
+    container_name: nginx-lua-prometheus-grafana
+    ports:
+      - 3000:3000
+
+  nginx-lua-prometheus-kibana:
+    build: ./kibana
+    container_name: nginx-lua-prometheus-kibana
+    ports:
+      - 5601:5601
+    depends_on:
+      - nginx-lua-prometheus-elasticsearch
+
+  nginx-lua-prometheus-elasticsearch:
+    build: ./elasticsearch
+    container_name: nginx-lua-prometheus-elasticsearch
+    environment:
+      ES_JAVA_OPTS: "-Xmx256m -Xms256m"
+      ELASTIC_PASSWORD: changeme
+      discovery.type: single-node
+    ports:
+      - 9200:9200
+      - 9300:9300

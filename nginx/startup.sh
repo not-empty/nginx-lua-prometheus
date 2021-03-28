@@ -1,0 +1,1 @@
+nohup filebeat setup -e & service filebeat start & nginx -g 'daemon off;'
