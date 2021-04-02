@@ -1,4 +1,4 @@
-FROM debian:10.8
+FROM debian:10.9
 
 RUN apt update \
     && apt install -y libnginx-mod-http-lua
